@@ -1,0 +1,40 @@
+<%@ page contentType="text/html; charset=utf-8" %> //所有中文注释是现在上传Github添加的，方便理解，不能直接放到编译器哈！
+<html>                                             //开发工具MyEclipse+sqlserver2008
+<head>
+<title>connect the db</title>
+</head>
+<%@ page import="java.sql.*"%>
+<body>
+    <%
+    Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver"); //在项目名下点击右键选择Build Path 然后点击Link Source将下载的sqljdbc4.jar文件夹引入，否则会报错classNotFound
+    String sUrl = "jdbc:sqlserver://localhost:1433;databasename=BackZJ";//BackZJ数据库名
+    String sUser = "huahua";//用户名
+    String sPassword = "123456";//密码
+    Connection conn = DriverManager.getConnection(sUrl, sUser, sPassword);
+    conn.setCatalog("BackZJ");//BackZJ数据库名
+    Statement stmt =conn.createStatement();
+    String sSql="select * from qyxx";//qyxx数据库的一张表
+    ResultSet rs=stmt.executeQuery(sSql);
+    %>
+     <table border="1">
+    <%
+    while(rs.next()){
+    %>
+     <tr>
+      <td><%=rs.getObject(1) %></td>
+      <td><%=rs.getObject(2) %></td>
+      <td><%=rs.getObject(3) %></td>
+      ........//可以根据表字段继续添加
+     </tr> 
+    <% 
+    }
+    %>
+    </table>
+    <%
+    rs.close();
+    conn.close();
+    %>
+  </body>
+
+
+</html>
